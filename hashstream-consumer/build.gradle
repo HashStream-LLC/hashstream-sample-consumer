@@ -1,0 +1,71 @@
+plugins {
+    id 'org.springframework.boot' version '3.2.4'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'java'
+}
+
+group = 'xyz.hashstream'
+version = '0.0.1-SNAPSHOT'
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+dependencies {
+    implementation('org.springframework.boot:spring-boot-starter-web') {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+    }
+    implementation 'com.amazonaws.serverless:aws-serverless-java-container-springboot3:2.1.2'
+
+    // Explicit versions for logback - make sure to include both core and classic
+    implementation 'ch.qos.logback:logback-core:1.5.17'
+    implementation 'ch.qos.logback:logback-classic:1.5.17'
+
+    implementation 'software.amazon.awssdk:ssm:2.30.36'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+testing {
+    suites {
+        test {
+            useJUnitJupiter()
+
+            dependencies {
+                implementation 'org.springframework.boot:spring-boot-starter-test'
+            }
+        }
+    }
+}
+
+test {
+    testLogging {
+        events = ["PASSED", "FAILED", "SKIPPED", "STANDARD_ERROR"]
+        displayGranularity = 2
+        exceptionFormat = "FULL"
+    }
+}
+
+// Define zip task using modern syntax with sourceSet output
+tasks.register('buildZip', Zip) {
+    archiveFileName = "${project.name}-${project.version}.zip"
+    from sourceSets.main.output
+    into('lib') {
+        from(configurations.runtimeClasspath.incoming.artifactView {
+            attributes {
+                attribute(LibraryElements.LIBRARY_ELEMENTS_ATTRIBUTE,
+                          objects.named(LibraryElements, LibraryElements.JAR))
+            }
+        }.files.filter { file ->
+            !file.name.contains('tomcat-embed')
+        })
+    }
+}
+// Run buildZip after build completes
+tasks.named('build') {
+    finalizedBy 'buildZip'
+}
