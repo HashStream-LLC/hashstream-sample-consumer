@@ -5,9 +5,12 @@ Resources:
     Type: AWS::Serverless::Api
     Properties:
       StageName: Prod
-      Description: 'API with IAM authorization'
+      Description: "The HashStream Consumer API handles routing of HashStream webhooks to the HashStream consumer Lambda."
       Auth:
-        DefaultAuthorizer: AWS_IAM #sets AWS_IAM auth for all methods in this API
+        ApiKeyRequired: true
+        UsagePlan:
+          CreateUsagePlan: PER_API
+          Description: This usage plan allows very basic authentication to allow HashStream to call your service. Attach the API key to your HashStream rules that call this API as the custom header 'x-api-key'.
   HashstreamConsumerLambda:
     Type: AWS::Serverless::Function
     Properties:
@@ -26,7 +29,7 @@ Resources:
             RestApiId:
               Ref: HashstreamConsumerApi
             Auth:
-              Authorizer: NONE
+              ApiKeyRequired: false
         HashstreamConsumer:
           Type: Api
           Properties:
@@ -37,7 +40,7 @@ Resources:
   HashStreamConsumerLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Join [ "", [ "/aws/lambda/", !Ref HashstreamConsumerLambda ] ]
+      LogGroupName: !Join ["", ["/aws/lambda/", !Ref HashstreamConsumerLambda]]
       RetentionInDays: 14
   HashstreamConsumerRole:
     Type: AWS::IAM::Role
