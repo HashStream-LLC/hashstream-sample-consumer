@@ -17,9 +17,8 @@ public class WebhookConsumerController {
   Logger logger = LoggerFactory.getLogger(WebhookConsumerController.class);
 
   @RequestMapping(path = "/hashstream-webhook", method = RequestMethod.POST)
-  public WebhookResponse createPet(@RequestBody NotificationPayload payload) {
+  public WebhookResponse handleWebhook(@RequestBody NotificationPayload payload) {
     logger.info("Received webhook payload: {}", payload);
     return new WebhookResponse("success");
   }
-
 }

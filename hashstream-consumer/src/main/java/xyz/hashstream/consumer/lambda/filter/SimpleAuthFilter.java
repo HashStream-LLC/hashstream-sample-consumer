@@ -19,12 +19,12 @@ import java.io.IOException;
  * Simple auth filter that requires a specific API key to be present in the
  * x-api-key header of the request. This filter
  * is registered in the
- * {@link xyz.hashstream.consumer.StreamLambdaHandler}
+ * {@link xyz.hashstream.consumer.lambda.HashStreamConsumer}
  * class.
  */
 @Component
 public class SimpleAuthFilter implements Filter {
-  private static Logger log = LoggerFactory.getLogger(SimpleAuthFilter.class);
+  private static final Logger log = LoggerFactory.getLogger(SimpleAuthFilter.class);
 
   private final String apiKey;
 
@@ -46,9 +46,14 @@ public class SimpleAuthFilter implements Filter {
     if (servletRequest instanceof HttpServletRequest && servletResponse instanceof HttpServletResponse) {
       HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
       HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-      log.info("Request received for path: " + httpServletRequest.getRequestURI());
+      log.info("Request received for path: {}", httpServletRequest.getRequestURI());
 
       String requestApiKey = httpServletRequest.getHeader("x-api-key");
+
+      if (httpServletRequest.getRequestURI().equals("/health-check")) {
+        filterChain.doFilter(servletRequest, servletResponse);
+        return;
+      }
 
       if (requestApiKey == null) {
         log.warn("x-api-key header is required");

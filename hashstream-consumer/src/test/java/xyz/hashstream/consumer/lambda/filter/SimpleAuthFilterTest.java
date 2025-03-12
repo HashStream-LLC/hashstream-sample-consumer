@@ -35,7 +35,7 @@ class SimpleAuthFilterTest {
   void setUp() {
     MockitoAnnotations.openMocks(this);
     simpleAuthFilter = new SimpleAuthFilter(VALID_API_KEY);
-    when(httpRequest.getRequestURI()).thenReturn("/test-path");
+    when(httpRequest.getRequestURI()).thenReturn("/hashstream-webhook");
   }
 
   @Test
@@ -75,6 +75,19 @@ class SimpleAuthFilterTest {
     // Assert
     verify(httpResponse).sendError(HttpServletResponse.SC_FORBIDDEN, "invalid authentication");
     verifyNoInteractions(filterChain);
+  }
+
+  @Test
+  void testDoFilter_WithoutApiKey_OnHealthCheck_ShouldContinueChain() throws IOException, ServletException {
+    // Arrange
+    when(httpRequest.getRequestURI()).thenReturn("/health-check");
+
+    // Act
+    simpleAuthFilter.doFilter(httpRequest, httpResponse, filterChain);
+
+    // Assert
+    verify(filterChain).doFilter(httpRequest, httpResponse);
+    verifyNoInteractions(httpResponse);
   }
 
   @Test
