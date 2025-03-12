@@ -1,14 +1,10 @@
 {
   "folders": [
     { "path": ".github", "name": "github" },
-    { "path": "./hashstream-consumer", "name": "hashstream-consumer" }
+    { "path": "./hashstream-consumer-java", "name": "hashstream-consumer-java" }
   ],
   "settings": {
-    "cSpell.words": [
-      "hashstream",
-      "Hedera",
-      "Millis"
-    ],
+    "cSpell.words": ["hashstream", "Hedera", "Millis"],
     "java.configuration.updateBuildConfiguration": "interactive"
   }
 }
