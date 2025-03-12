@@ -30,7 +30,16 @@ Unit tests can be executed using the following command:
 ./gradlew test
 ```
 
-This will run all tests defined in the `src/test` directory.
+## Deployment
+
+This project can be deployed to AWS with [AWS SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html).
+
+You will need an active session with AWS before running the deployment.
+
+```bash
+sam build
+sam deploy
+```
 
 ## License
 

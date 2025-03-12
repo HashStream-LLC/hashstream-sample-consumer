@@ -65,9 +65,18 @@ tasks.register('buildZip', Zip) {
     })
   }
 }
+
+// New task to copy the versioned zip file to a non-versioned name
+tasks.register('copyZip', Copy) {
+  dependsOn tasks.named('buildZip')
+  from { tasks.named('buildZip').get().archiveFile.get().asFile }
+  into './build/distributions'
+  rename { String fileName -> "${project.name}.zip" }
+}
+
 // Run buildZip after build completes
 tasks.named('build') {
-  finalizedBy 'buildZip'
+  finalizedBy 'buildZip', 'copyZip'
 }
 
 tasks.register('get-build-artifact-name') {

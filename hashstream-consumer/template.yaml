@@ -1,0 +1,62 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  HashstreamConsumerApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Description: 'API with IAM authorization'
+      Auth:
+        DefaultAuthorizer: AWS_IAM #sets AWS_IAM auth for all methods in this API
+  HashstreamConsumerLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: xyz.hashstream.consumer.lambda.HashStreamConsumer::handleRequest
+      Runtime: java21
+      CodeUri: build/distributions/hashstream-consumer.zip
+      MemorySize: 512
+      Timeout: 30
+      Role: !GetAtt HashstreamConsumerRole.Arn
+      Events:
+        HealthCheck:
+          Type: Api
+          Properties:
+            Path: /health-check
+            Method: GET
+            RestApiId:
+              Ref: HashstreamConsumerApi
+            Auth:
+              Authorizer: NONE
+        HashstreamConsumer:
+          Type: Api
+          Properties:
+            Path: /hashstream-webhook
+            Method: POST
+            RestApiId:
+              Ref: HashstreamConsumerApi
+  HashStreamConsumerLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Join [ "", [ "/aws/lambda/", !Ref HashstreamConsumerLambda ] ]
+      RetentionInDays: 14
+  HashstreamConsumerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: LambdaExecutionPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
