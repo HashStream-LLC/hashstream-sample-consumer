@@ -2,16 +2,15 @@ name: HashStream Consumer Lambda PR
 on:
   pull_request:
     paths:
-      - hashstream-consumer/**
-      - .github/workflows/hashstream-consumer-pr.yml
-
+      - hashstream-consumer-java/**
+      - .github/workflows/hashstream-consumer-java-pr.yml
 jobs:
   pr:
     timeout-minutes: 10
     runs-on: ubuntu-24.04
     defaults:
       run:
-        working-directory: hashstream-consumer
+        working-directory: hashstream-consumer-java
     steps:
       - name: Clone this repo
         uses: actions/checkout@v4

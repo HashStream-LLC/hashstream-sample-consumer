@@ -1,4 +1,4 @@
-# HashStream Consumer
+# HashStream Consumer Java
 
 ## Overview
 
