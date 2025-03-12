@@ -1,0 +1,65 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  HashstreamConsumerApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Description: "The HashStream Consumer API handles routing of HashStream webhooks to the HashStream consumer Lambda."
+      Auth:
+        ApiKeyRequired: true
+        UsagePlan:
+          CreateUsagePlan: PER_API
+          Description: This usage plan allows very basic authentication to allow HashStream to call your service. Attach the API key to your HashStream rules that call this API as the custom header 'x-api-key'.
+  HashstreamConsumerLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: xyz.hashstream.consumer.lambda.HashStreamConsumer::handleRequest
+      Runtime: java21
+      CodeUri: build/distributions/hashstream-consumer.zip
+      MemorySize: 512
+      Timeout: 30
+      Role: !GetAtt HashstreamConsumerRole.Arn
+      Events:
+        HealthCheck:
+          Type: Api
+          Properties:
+            Path: /health-check
+            Method: GET
+            RestApiId:
+              Ref: HashstreamConsumerApi
+            Auth:
+              ApiKeyRequired: false
+        HashstreamConsumer:
+          Type: Api
+          Properties:
+            Path: /hashstream-webhook
+            Method: POST
+            RestApiId:
+              Ref: HashstreamConsumerApi
+  HashStreamConsumerLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Join ["", ["/aws/lambda/", !Ref HashstreamConsumerLambda]]
+      RetentionInDays: 14
+  HashstreamConsumerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: LambdaExecutionPolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
