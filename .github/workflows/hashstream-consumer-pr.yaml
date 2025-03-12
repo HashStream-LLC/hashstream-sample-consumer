@@ -1,0 +1,28 @@
+name: HashStream Consumer Lambda PR
+on:
+  pull_request:
+    paths:
+      - hashstream-consumer/**
+      - .github/workflows/hashstream-consumer-pr.yml
+
+jobs:
+  pr:
+    timeout-minutes: 10
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: hashstream-consumer
+    steps:
+      - name: Clone this repo
+        uses: actions/checkout@v4
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - uses: aws-actions/setup-sam@v2
+        with:
+          use-installer: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Invoke SAM Local
+        run: sam local invoke HashstreamConsumerLambda --event events/apigateway_event.json
