@@ -110,13 +110,6 @@ on Mac, you may need to include an environment variable for DOCKER_HOST
 DOCKER_HOST=unix://$HOME/.docker/run/docker.sock sam local invoke HashstreamConsumerLambda --event events/apigateway_event.json
 ```
 
-
-## Learn More
-
-- [HashStream Documentation](https://docs.hashstream.com)
-- [Spring Boot Documentation](https://spring.io/projects/spring-boot)
-- [AWS Lambda Documentation](https://aws.amazon.com/lambda/)
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details.
