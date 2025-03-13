@@ -1,2 +1,3 @@
 .aws-sam/
 !gradle-wrapper.jar
+bin/
