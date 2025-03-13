@@ -5,6 +5,6 @@
   ],
   "settings": {
     "cSpell.words": ["hashstream", "Hedera", "Millis"],
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "automatic"
   }
 }

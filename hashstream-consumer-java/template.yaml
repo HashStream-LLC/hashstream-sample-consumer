@@ -16,7 +16,7 @@ Resources:
     Properties:
       Handler: xyz.hashstream.consumer.lambda.HashStreamConsumer::handleRequest
       Runtime: java21
-      CodeUri: build/distributions/hashstream-consumer.zip
+      CodeUri: build/distributions/hashstream-consumer-java.zip
       MemorySize: 512
       Timeout: 30
       Role: !GetAtt HashstreamConsumerRole.Arn
