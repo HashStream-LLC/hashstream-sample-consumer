@@ -69,7 +69,7 @@ BODY:
 {
   "chain": "hedera",
   "ruleType": 4,
-  "predicateValue": "0.0.4652955",
+  "predicateValue": "<Your smart contract ID, 0.0.xxxx>",
   "ruleName": "HashStream Consumer Tester (Hbar/HbarX LP)",
   "actionWebhookUrl": "<The Value from Step 3 Above>",
   "actionWebhookCustomHeaders":
