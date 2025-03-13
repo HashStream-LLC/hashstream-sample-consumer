@@ -101,12 +101,16 @@ Run unit tests:
 Test with AWS SAM locally:
 
 ```bash
+./gradlew build
+sam build
 sam local invoke HashstreamConsumerLambda --event events/apigateway_event.json
 ```
 
 on Mac, you may need to include an environment variable for DOCKER_HOST
 
 ```bash
+./gradlew build
+sam build
 DOCKER_HOST=unix://$HOME/.docker/run/docker.sock sam local invoke HashstreamConsumerLambda --event events/apigateway_event.json
 ```
 
