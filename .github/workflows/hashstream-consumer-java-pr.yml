@@ -29,5 +29,5 @@ jobs:
           use-installer: true
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Invoke SAM Local
-        run: sam local invoke HashstreamConsumerLambda --event events/apigateway_event.json
+      - name: Invoke SAM Local Integration Test
+        run: ./sam-local-integration-test.sh
