@@ -20,7 +20,7 @@ dependencies {
     exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
   }
   implementation 'com.amazonaws.serverless:aws-serverless-java-container-springboot3:2.1.2'
-  implementation 'net.logstash.logback:logstash-logback-encoder:7.4'
+  implementation 'net.logstash.logback:logstash-logback-encoder:8.0'
 
   // Explicit versions for logback - make sure to include both core and classic
   implementation 'ch.qos.logback:logback-core:1.5.17'
