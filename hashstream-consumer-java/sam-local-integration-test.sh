@@ -1,15 +1,18 @@
 set -e
 
+mkdir -p output
+output_file="output/same-local-integration-out.json"
+
 sam build
-sam local invoke HashstreamConsumerLambda --event events/apigateway_event.json > lambda_output.json
+sam local invoke HashstreamConsumerLambda --event events/apigateway_event.json > $output_file
 echo "Received output from lambda:"
-cat lambda_output.json
+cat $output_file
 echo ""
-if ! jq -e '. | select(.statusCode == 200)' lambda_output.json > /dev/null; then
+if ! jq -e '. | select(.statusCode == 200)' $output_file > /dev/null; then
   echo "Error: statusCode is not 200"
   exit 1
 fi
-if ! jq -e '.body | fromjson | select(.status == "success")' lambda_output.json > /dev/null; then
+if ! jq -e '.body | fromjson | select(.status == "success")' $output_file > /dev/null; then
   echo "Error: Unexpected response body. status should be success"
   exit 1
 fi
