@@ -37,6 +37,13 @@ Resources:
             Method: POST
             RestApiId:
               Ref: HashstreamConsumerApi
+        HashstreamConsumerDiscord:
+          Type: Api
+          Properties:
+            Path: /hashstream-webhook-discord
+            Method: POST
+            RestApiId:
+              Ref: HashstreamConsumerApi
   HashStreamConsumerLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
