@@ -9,11 +9,10 @@ import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-
 import xyz.hashstream.consumer.lambda.controller.WebhookConsumerController;
 
 @SpringBootApplication
-@Import({ WebhookConsumerController.class })
+@Import({WebhookConsumerController.class})
 public class Application {
 
   // silence console logging

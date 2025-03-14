@@ -1,20 +1,20 @@
 package xyz.hashstream.consumer.lambda.model.transactionmodel;
 
-import java.util.Optional;
+import org.springframework.lang.Nullable;
 
 public record WrappedTransactionMetadata(
     String consensusTimestamp,
     long chargedTxFee,
     long maxFee,
     String memo,
-    Optional<String> node,
+    @Nullable String node,
     int nonce,
-    Optional<String> parentConsensusTimestamp,
+    @Nullable String parentConsensusTimestamp,
     boolean scheduled,
     String transactionHash,
     String transactionId,
     String transactionType,
     String payerAccountId,
-    Optional<Long> validDurationSeconds,
+    @Nullable Long validDurationSeconds,
     String validStartTimestamp) {
 }

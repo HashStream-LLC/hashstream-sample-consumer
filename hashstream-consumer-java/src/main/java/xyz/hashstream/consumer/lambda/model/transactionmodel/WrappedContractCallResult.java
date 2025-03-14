@@ -1,7 +1,8 @@
 package xyz.hashstream.consumer.lambda.model.transactionmodel;
 
+import org.springframework.lang.Nullable;
+
 import java.util.List;
-import java.util.Optional;
 
 public record WrappedContractCallResult(
     String contractId,
@@ -12,7 +13,7 @@ public record WrappedContractCallResult(
     String bloom,
     String contractCallResult,
     String errorMessage,
-    Optional<String> evmAddress,
-    Optional<String> senderId,
+    @Nullable String evmAddress,
+    @Nullable String senderId,
     List<WrappedContractCallLogInfo> logInfo) {
 }

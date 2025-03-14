@@ -1,9 +1,9 @@
 package xyz.hashstream.consumer.lambda.model.transactionmodel;
 
-import java.util.Optional;
+import org.springframework.lang.Nullable;
 
 public record WrappedExchangeRateSet(
-    Optional<WrappedExchangeRate> nextRate,
-    Optional<WrappedExchangeRate> currentRate) {
+    @Nullable WrappedExchangeRate nextRate,
+    @Nullable WrappedExchangeRate currentRate) {
 
 }
