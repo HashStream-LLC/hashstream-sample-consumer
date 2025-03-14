@@ -1,15 +1,14 @@
 package xyz.hashstream.consumer.lambda.service;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.springframework.stereotype.Service;
-
 import xyz.hashstream.consumer.lambda.model.NotificationPayload;
 import xyz.hashstream.consumer.lambda.model.transactionmodel.WrappedContractCallLogInfo;
 import xyz.hashstream.consumer.lambda.model.transactionmodel.WrappedContractCallResult;
 import xyz.hashstream.consumer.lambda.model.transactionmodel.WrappedTransactionMetadata;
 import xyz.hashstream.consumer.lambda.model.transactionmodel.WrappedTransactionModel;
+
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class HashStreamModelV1Adapter {

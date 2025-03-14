@@ -1,10 +1,10 @@
 package xyz.hashstream.consumer.lambda.service;
 
+import org.springframework.stereotype.Service;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Base64.Decoder;
-
-import org.springframework.stereotype.Service;
 
 @Service
 public class Base64Decoder {

@@ -1,7 +1,8 @@
 package xyz.hashstream.consumer.lambda.model.transactionmodel;
 
-import java.util.List;
 import org.springframework.lang.Nullable;
+
+import java.util.List;
 
 public record WrappedReceipt(
     String status,

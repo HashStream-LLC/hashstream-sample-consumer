@@ -1,9 +1,6 @@
 package xyz.hashstream.consumer.lambda.service;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
-
 import xyz.hashstream.consumer.lambda.model.NotificationPayload;
 
 @Service

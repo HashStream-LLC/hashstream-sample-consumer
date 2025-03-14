@@ -1,19 +1,11 @@
 package xyz.hashstream.consumer.lambda.controller;
 
-import org.springframework.http.HttpHeaders;
-
-import java.util.Optional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
 import xyz.hashstream.consumer.lambda.model.NotificationPayload;
 import xyz.hashstream.consumer.lambda.model.WebhookResponse;
 import xyz.hashstream.consumer.lambda.service.HashStreamModelAdapter;

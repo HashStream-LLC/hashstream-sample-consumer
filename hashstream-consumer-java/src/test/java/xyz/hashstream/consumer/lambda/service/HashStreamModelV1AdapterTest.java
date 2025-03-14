@@ -1,17 +1,15 @@
 package xyz.hashstream.consumer.lambda.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.io.InputStream;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import xyz.hashstream.consumer.lambda.model.NotificationPayload;
+
+import java.io.InputStream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HashStreamModelV1AdapterTest {
   private static NotificationPayload testPayload;
