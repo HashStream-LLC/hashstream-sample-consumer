@@ -24,7 +24,7 @@ Resources:
         HealthCheck:
           Type: Api
           Properties:
-            Path: /health-check
+            Path: /actuator/health
             Method: GET
             RestApiId:
               Ref: HashstreamConsumerApi

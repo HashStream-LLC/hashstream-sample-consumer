@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["hashstream"]
+  "cSpell.words": ["hashstream"],
+  "java.configuration.updateBuildConfiguration": "automatic"
 }

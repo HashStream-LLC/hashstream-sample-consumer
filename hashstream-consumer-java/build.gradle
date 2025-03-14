@@ -4,6 +4,10 @@ plugins {
   id 'java'
 }
 
+ext {
+  springBootVersion = '3.4.2'
+}
+
 group = 'xyz.hashstream'
 version = '0.0.1-SNAPSHOT'
 java {
@@ -16,9 +20,10 @@ repositories {
   mavenLocal()
 }
 dependencies {
-  implementation('org.springframework.boot:spring-boot-starter-web') {
+  implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}") {
     exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
   }
+  implementation "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
   implementation 'com.amazonaws.serverless:aws-serverless-java-container-springboot3:2.1.2'
   implementation 'net.logstash.logback:logstash-logback-encoder:8.0'
 
@@ -26,7 +31,7 @@ dependencies {
   implementation 'ch.qos.logback:logback-core:1.5.17'
   implementation 'ch.qos.logback:logback-classic:1.5.17'
 
-  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
 }
 
 testing {
