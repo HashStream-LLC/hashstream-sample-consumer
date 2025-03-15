@@ -1,9 +1,9 @@
 package xyz.hashstream.consumer.lambda.model.transactionmodel;
 
-import java.util.Optional;
+import org.springframework.lang.Nullable;
 
 public record WrappedExchangeRate(
     int centEquiv,
     int hbarEquiv,
-    Optional<Long> expirationTime) {
+    @Nullable Long expirationTime) {
 }
