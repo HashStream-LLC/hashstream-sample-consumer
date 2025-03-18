@@ -5,13 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import xyz.hashstream.consumer.lambda.model.NotificationPayload;
 import xyz.hashstream.consumer.lambda.model.WebhookResponse;
 import xyz.hashstream.consumer.lambda.service.HashStreamModelAdapter;
 
 @RestController
-@EnableWebMvc
 public class WebhookConsumerController {
   private static final String HASHSTREAM_DATA_VERSION_HEADER = "hashstream-data-version";
   private final Logger logger = LoggerFactory.getLogger(WebhookConsumerController.class);
