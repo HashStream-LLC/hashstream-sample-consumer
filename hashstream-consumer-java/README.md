@@ -114,6 +114,10 @@ sam build
 DOCKER_HOST=unix://$HOME/.docker/run/docker.sock sam local invoke HashstreamConsumerLambda --event events/apigateway_event.json
 ```
 
+## Tear down
+
+`sam delete`
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](../LICENSE) file for details.
