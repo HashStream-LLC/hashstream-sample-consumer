@@ -20,7 +20,7 @@ two differences:
 
 ### Prerequisites
 
-- [Node.js 20+](https://nodejs.org/)
+- [Node.js 24+](https://nodejs.org/) (matches the Lambda runtime)
 - [AWS CLI](https://aws.amazon.com/cli/) configured with valid credentials
 - [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html)
 

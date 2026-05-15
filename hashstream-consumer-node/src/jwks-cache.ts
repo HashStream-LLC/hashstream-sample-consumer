@@ -24,10 +24,14 @@ export interface JwksFetcher {
 
 const FALLBACK_TTL_MS = 60 * 60 * 1000;
 const MIN_TTL_MS = 60 * 1000;
+const UNKNOWN_KID_REFRESH_COOLDOWN_MS = 60 * 1000;
 
 export class JwksCache {
   private entry: CacheEntry | null = null;
   private inflight: Promise<Jwks> | null = null;
+  // Throttles the unknown-kid refresh path so an attacker can't drive
+  // unbounded outbound traffic by replaying random `kid` values.
+  private lastUnknownKidRefreshAtMs = Number.NEGATIVE_INFINITY;
 
   constructor(
     private readonly fetcher: JwksFetcher,
@@ -39,6 +43,10 @@ export class JwksCache {
     let key = jwks.keys.find((k) => k.kid === kid);
     if (key) return key;
 
+    if (this.now() - this.lastUnknownKidRefreshAtMs < UNKNOWN_KID_REFRESH_COOLDOWN_MS) {
+      return null;
+    }
+    this.lastUnknownKidRefreshAtMs = this.now();
     jwks = await this.refresh();
     key = jwks.keys.find((k) => k.kid === kid);
     return key ?? null;

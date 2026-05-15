@@ -69,6 +69,25 @@ describe("JwksCache", () => {
     expect(fetcher).toHaveBeenCalledTimes(2);
   });
 
+  it("throttles repeated unknown-kid refreshes within the cooldown", async () => {
+    const fetcher = jest.fn().mockResolvedValue({
+      jwks: { keys: [KEY_A] } as Jwks,
+      cacheControlMaxAgeSeconds: 3600,
+    });
+    const cache = new JwksCache(fetcher, now);
+
+    expect(await cache.getKey("missing")).toBeNull();
+    expect(fetcher).toHaveBeenCalledTimes(2);
+
+    nowMs += 30_000;
+    expect(await cache.getKey("also-missing")).toBeNull();
+    expect(fetcher).toHaveBeenCalledTimes(2);
+
+    nowMs += 31_000;
+    expect(await cache.getKey("still-missing")).toBeNull();
+    expect(fetcher).toHaveBeenCalledTimes(3);
+  });
+
   it("refetches after cache-control TTL expires", async () => {
     const fetcher = jest.fn().mockResolvedValue({
       jwks: { keys: [KEY_A] } as Jwks,
