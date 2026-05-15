@@ -1,0 +1,35 @@
+name: HashStream Consumer Node PR
+on:
+  pull_request:
+    paths:
+      - hashstream-consumer-node/**
+      - .github/workflows/hashstream-consumer-node-pr.yml
+jobs:
+  pr:
+    timeout-minutes: 10
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: hashstream-consumer-node
+    steps:
+      - name: Clone this repo
+        uses: actions/checkout@v4
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: hashstream-consumer-node/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npm run lint
+
+      - name: Test
+        run: npm test
+
+      - name: Bundle
+        run: npm run build

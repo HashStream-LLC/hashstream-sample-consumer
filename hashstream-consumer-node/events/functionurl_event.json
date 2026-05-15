@@ -1,0 +1,34 @@
+{
+  "version": "2.0",
+  "routeKey": "$default",
+  "rawPath": "/",
+  "rawQueryString": "",
+  "headers": {
+    "content-type": "application/json",
+    "hashstream-data-version": "v1",
+    "x-hashstream-signature": "REPLACE_WITH_REAL_SIGNATURE",
+    "x-hashstream-signature-timestamp": "1739459546991",
+    "x-hashstream-signature-key-id": "REPLACE_WITH_REAL_KID",
+    "x-hashstream-signature-version": "v1"
+  },
+  "requestContext": {
+    "accountId": "123456789012",
+    "apiId": "x",
+    "domainName": "x.lambda-url.us-east-1.on.aws",
+    "domainPrefix": "x",
+    "http": {
+      "method": "POST",
+      "path": "/",
+      "protocol": "HTTP/1.1",
+      "sourceIp": "127.0.0.1",
+      "userAgent": "hashstream-local"
+    },
+    "requestId": "local-request",
+    "routeKey": "$default",
+    "stage": "$default",
+    "time": "2025-02-13T16:32:26Z",
+    "timeEpoch": 1739459546000
+  },
+  "body": "{\"metadata\":{\"rule\":{\"id\":\"rule-id\",\"name\":\"sample\",\"type\":4,\"predicateValue\":\"0.0.4652955\",\"chain\":\"hedera\"},\"network\":\"testnet\",\"sentinelTimestamp\":\"1739459546.991503206\",\"timeSinceConsensus\":\"4.35517296\"},\"content\":{\"metadata\":{\"consensusTimestamp\":\"1739459542.955985910\",\"chargedTxFee\":43776000,\"maxFee\":60302952,\"memo\":\"\",\"node\":\"0.0.3\",\"nonce\":0,\"scheduled\":false,\"transactionHash\":\"GRUy87gAl9WR63Z1x0ZylpCdtuFZNYkB/WmDzM3tonOik+NJFXDqKdC8LkJmhg70\",\"transactionId\":\"0.0.5492024-1739459523-807109752\",\"transactionType\":\"CONTRACTCALL\",\"payerAccountId\":\"0.0.5492024\",\"validDurationSeconds\":120,\"validStartTimestamp\":\"1739459523.807109752\"},\"receipt\":{\"status\":\"SUCCESS\",\"contractId\":\"0.0.4652955\"},\"transfers\":{\"crypto\":[],\"tokens\":[],\"nfts\":[]}}}",
+  "isBase64Encoded": false
+}

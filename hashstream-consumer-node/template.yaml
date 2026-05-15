@@ -1,0 +1,52 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  HashStream Consumer (Node) — Lambda Function URL that receives signed
+  HashStream webhooks, verifies the signature against the public JWKS
+  endpoint, and logs the payload.
+
+Parameters:
+  JwksUrl:
+    Type: String
+    Description: >
+      HashStream JWKS endpoint, e.g.
+      https://testnet.streams-api.hashstream.xyz/webhook-keys
+    AllowedPattern: "^https://.+"
+
+Resources:
+  HashstreamConsumerLambda:
+    Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Format: cjs
+        Target: node24
+        Minify: false
+        Sourcemap: true
+        EntryPoints:
+          - src/index.ts
+    Properties:
+      Handler: src/index.handler
+      Runtime: nodejs24.x
+      MemorySize: 256
+      Timeout: 10
+      Architectures:
+        - arm64
+      Environment:
+        Variables:
+          JWKS_URL: !Ref JwksUrl
+          LOG_LEVEL: info
+      FunctionUrlConfig:
+        AuthType: NONE
+        InvokeMode: BUFFERED
+
+  HashStreamConsumerLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Join ["", ["/aws/lambda/", !Ref HashstreamConsumerLambda]]
+      RetentionInDays: 14
+
+Outputs:
+  WebhookUrl:
+    Description: Public Function URL to register with HashStream as the webhook target
+    Value: !GetAtt HashstreamConsumerLambdaUrl.FunctionUrl

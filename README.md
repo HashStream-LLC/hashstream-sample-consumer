@@ -8,6 +8,10 @@ This repository provides sample applications demonstrating how to integrate with
 
 A Spring Boot-based AWS Lambda function demonstrating how to handle notifications from HashStream using AWS serverless technologies (Lambda, API Gateway).
 
+### [Hashstream Consumer (Node/TypeScript)](hashstream-consumer-node/README.md)
+
+A TypeScript AWS Lambda demonstrating how to verify HashStream's signed webhooks using the published JWKS (asymmetric ECDSA P-256 signatures) and process the payload. Fronted by a Lambda Function URL.
+
 More examples and integrations will be added in the future ;)
 
 ## License
