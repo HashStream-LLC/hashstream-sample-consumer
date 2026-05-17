@@ -13,7 +13,7 @@ export interface TestKey {
   kid: string;
 }
 
-export function generateTestKey(kid: string, status: Jwk["status"] = "active"): TestKey {
+export function generateTestKey(kid: string): TestKey {
   const { publicKey, privateKey } = generateKeyPairSync("ec", { namedCurve: "P-256" });
   const publicJwk = publicKey.export({ format: "jwk" });
   const jwk: Jwk = {
@@ -24,7 +24,6 @@ export function generateTestKey(kid: string, status: Jwk["status"] = "active"): 
     kid,
     use: "sig",
     alg: "ES256",
-    status,
   };
   return { jwk, privateKey: createPrivateKey(privateKey.export({ format: "pem", type: "pkcs8" })), kid };
 }

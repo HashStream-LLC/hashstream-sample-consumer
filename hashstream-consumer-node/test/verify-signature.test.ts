@@ -95,13 +95,13 @@ describe("createVerifier", () => {
     if (!result.ok) expect(result.reason).toMatch(/unsupported signature version/);
   });
 
-  it("accepts a retired key during rotation overlap", async () => {
-    const retired = generateTestKey("old", "retired");
-    const active = generateTestKey("new", "active");
-    const cache = makeCacheWithKeys([active, retired]);
+  it("accepts a non-primary key during rotation overlap", async () => {
+    const previous = generateTestKey("old");
+    const current = generateTestKey("new");
+    const cache = makeCacheWithKeys([current, previous]);
     const verifier = createVerifier(cache, now);
     const body = "x";
-    const headers = buildSignedHeaders(retired, body, FIXED_NOW_MS);
+    const headers = buildSignedHeaders(previous, body, FIXED_NOW_MS);
 
     const result = await verifier.verify(body, headers);
 

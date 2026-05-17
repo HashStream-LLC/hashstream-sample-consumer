@@ -44,7 +44,7 @@ two differences:
 
    | Parameter | Value |
    | --- | --- |
-   | `JwksUrl` | `https://mainnet.streams-api.hashstream.xyz/webhook-keys` (or the `testnet` equivalent) |
+   | `HashstreamNetwork` | `mainnet` or `testnet` (Lambda derives the JWKS URL from this) |
 
 3. **Get your webhook URL**
 
@@ -93,7 +93,7 @@ Every outbound HashStream webhook carries four headers:
 
 The signed bytes are `${timestampMs}.${rawBody}`. This sample:
 
-1. Loads the JWKS from `JWKS_URL` (public, unauthenticated).
+1. Loads the JWKS from `https://keys.hashstream.xyz/networks/<network>/.well-known/jwks.json` (public, unauthenticated; network comes from `HASHSTREAM_NETWORK`).
 2. Caches it in memory, respecting the response `cache-control: max-age` (with
    a 1-hour fallback). See `src/jwks-cache.ts`.
 3. Re-fetches the JWKS exactly once if a webhook arrives with an unknown
@@ -104,6 +104,12 @@ The signed bytes are `${timestampMs}.${rawBody}`. This sample:
 See `src/verify-signature.ts` for the verification, and
 [stream-notifications-lambdas/docs/webhook-signatures.md](https://github.com/HashStream-LLC/hedera-streams/blob/main/node-projects/apps/stream-notifications-lambdas/docs/webhook-signatures.md)
 in the main HashStream repo for the protocol spec.
+
+> **Only the body is authenticated.** Other `x-hashstream-*` headers (event
+> id, request id, retry balance) are unsigned advisory metadata. For any
+> security or routing decision — which rule this is, which network it came
+> from — use values parsed from the verified body (e.g. `metadata.rule.id`,
+> `metadata.network`), not request headers.
 
 ## Customising payload handling
 
@@ -139,7 +145,7 @@ Bundle for Lambda:
 sam build
 sam local invoke HashstreamConsumerLambda \
   --event events/functionurl_event.json \
-  --parameter-overrides JwksUrl=https://example/keys
+  --parameter-overrides HashstreamNetwork=testnet
 ```
 
 > **Note:** `events/functionurl_event.json` has placeholder signature headers,

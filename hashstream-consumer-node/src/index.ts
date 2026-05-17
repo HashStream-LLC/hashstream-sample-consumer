@@ -10,11 +10,20 @@ import { createVerifier, fetchJwks, Verifier } from "./verify-signature";
 
 const DATA_VERSION_HEADER = "hashstream-data-version";
 
+const KNOWN_NETWORKS = ["mainnet", "testnet"] as const;
+type Network = (typeof KNOWN_NETWORKS)[number];
+
 let verifier: Verifier | undefined;
 
 function getVerifier(): Verifier {
   if (verifier) return verifier;
-  const jwksUrl = requireEnv("JWKS_URL");
+  const network = requireEnv("HASHSTREAM_NETWORK");
+  if (!KNOWN_NETWORKS.includes(network as Network)) {
+    throw new Error(
+      `HASHSTREAM_NETWORK must be one of ${KNOWN_NETWORKS.join(", ")}; got "${network}"`,
+    );
+  }
+  const jwksUrl = `https://keys.hashstream.xyz/networks/${network}/.well-known/jwks.json`;
   const cache = new JwksCache(() => fetchJwks(jwksUrl));
   verifier = createVerifier(cache);
   return verifier;

@@ -6,7 +6,6 @@ export interface Jwk {
   kid: string;
   use?: string;
   alg?: string;
-  status?: "active" | "retired";
 }
 
 export interface Jwks {

@@ -11,7 +11,7 @@ beforeAll(() => {
 
 beforeEach(() => {
   jest.resetModules();
-  process.env.JWKS_URL = "https://example.com/webhook-keys";
+  process.env.HASHSTREAM_NETWORK = "testnet";
 
   global.fetch = jest.fn(async () => ({
     ok: true,
@@ -122,10 +122,22 @@ describe("handler", () => {
   });
 
   it("throws if required env vars are missing", async () => {
-    delete process.env.JWKS_URL;
+    delete process.env.HASHSTREAM_NETWORK;
     const { handler } = await import("../src/index");
     const headers = buildSignedHeaders(testKey, samplePayloadBody);
 
-    await expect(handler(buildEvent(samplePayloadBody, headers))).rejects.toThrow(/JWKS_URL/);
+    await expect(handler(buildEvent(samplePayloadBody, headers))).rejects.toThrow(
+      /HASHSTREAM_NETWORK/,
+    );
+  });
+
+  it("throws if HASHSTREAM_NETWORK is not a known network", async () => {
+    process.env.HASHSTREAM_NETWORK = "previewnet";
+    const { handler } = await import("../src/index");
+    const headers = buildSignedHeaders(testKey, samplePayloadBody);
+
+    await expect(handler(buildEvent(samplePayloadBody, headers))).rejects.toThrow(
+      /HASHSTREAM_NETWORK/,
+    );
   });
 });

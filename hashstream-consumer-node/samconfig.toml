@@ -7,7 +7,11 @@ region = "us-east-1"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM"
 image_repositories = []
+parameter_overrides = "HashstreamNetwork=\"testnet\""
 
+
+[default.global.parameters]
+region = "us-east-1"
 [prod-testnet.deploy.parameters]
 stack_name = "hashstream-consumer-node"
 resolve_s3 = true
@@ -15,7 +19,7 @@ s3_prefix = "hashstream-consumer-node"
 region = "us-east-1"
 confirm_changeset = true
 capabilities = "CAPABILITY_IAM"
-parameter_overrides = "JwksUrl=\"https://testnet.streams-api.hashstream.xyz/webhook-keys\""
+parameter_overrides = "HashstreamNetwork=\"testnet\""
 image_repositories = []
 
 [prod-testnet.global.parameters]

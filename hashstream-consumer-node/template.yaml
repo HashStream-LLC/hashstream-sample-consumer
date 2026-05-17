@@ -6,12 +6,15 @@ Description: >
   endpoint, and logs the payload.
 
 Parameters:
-  JwksUrl:
+  HashstreamNetwork:
     Type: String
     Description: >
-      HashStream JWKS endpoint, e.g.
-      https://testnet.streams-api.hashstream.xyz/webhook-keys
-    AllowedPattern: "^https://.+"
+      HashStream network whose JWKS this consumer should trust. The Lambda
+      derives the JWKS URL as
+      https://keys.hashstream.xyz/networks/<network>/.well-known/jwks.json.
+    AllowedValues:
+      - mainnet
+      - testnet
 
 Resources:
   HashstreamConsumerLambda:
@@ -34,7 +37,7 @@ Resources:
         - arm64
       Environment:
         Variables:
-          JWKS_URL: !Ref JwksUrl
+          HASHSTREAM_NETWORK: !Ref HashstreamNetwork
           LOG_LEVEL: info
       FunctionUrlConfig:
         AuthType: NONE
